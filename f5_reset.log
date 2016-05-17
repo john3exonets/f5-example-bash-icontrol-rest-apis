@@ -1,0 +1,132 @@
+05/15/2016:20:52:18 ** Adding Common iControl REST API Function **
+05/15/2016:20:52:18 *** Program Start ***
+05/15/2016:20:52:18 ---Checking to see if we can talk to BIGIP...
+05/15/2016:20:52:19 restCall():/usr/bin/curl -sk --connect-timeout 5 -m 500 --header Content-Type: application/json -u admin:admin https://10.147.29.214/mgmt/tm/ltm/available -X GET 
+05/15/2016:20:52:19 isAvailable():{}
+05/15/2016:20:52:19 ---Retrieving BIGIP Version number...
+05/15/2016:20:52:19 restCall():/usr/bin/curl -sk --connect-timeout 5 -m 500 --header Content-Type: application/json -u admin:admin https://10.147.29.214/mgmt/tm/cloud/net/software-status -X GET 
+05/15/2016:20:52:20 getVersion(): True
+05/15/2016:20:52:20 restCall():/usr/bin/curl -sk --connect-timeout 5 -m 500 --header Content-Type: application/json -u admin:admin https://10.147.29.214/mgmt/tm/cloud/net/software-status -X GET 
+05/15/2016:20:52:20 getVersion(): 11.6.0
+05/15/2016:20:52:20 ---Remove Default Route
+05/15/2016:20:52:20 restCall():/usr/bin/curl -sk --connect-timeout 5 -m 500 --header Content-Type: application/json -u admin:admin https://10.147.29.214/mgmt/tm/net/route/~Common~DefaultRoute -X DELETE 
+05/15/2016:20:52:20 Remove DefaultRoute: {
+    "code": 404,
+    "errorStack": [],
+    "message": "01020036:3: The requested static route (/Common/DefaultRoute) was not found."
+}
+05/15/2016:20:52:20 ---Removing Virtual Servers...
+05/15/2016:20:52:21 restCall():/usr/bin/curl -sk --connect-timeout 5 -m 500 --header Content-Type: application/json -u admin:admin https://10.147.29.214/mgmt/tm/ltm/virtual/filt_in_HTTP -X DELETE 
+05/15/2016:20:52:21 Remove VS: {
+    "code": 404,
+    "errorStack": [],
+    "message": "01020036:3: The requested Virtual Server (/Common/filt_in_HTTP) was not found."
+}
+05/15/2016:20:52:21 restCall():/usr/bin/curl -sk --connect-timeout 5 -m 500 --header Content-Type: application/json -u admin:admin https://10.147.29.214/mgmt/tm/ltm/virtual/HTTPS_Passthrough -X DELETE 
+05/15/2016:20:52:21 Remove VS: {
+    "code": 404,
+    "errorStack": [],
+    "message": "01020036:3: The requested Virtual Server (/Common/HTTPS_Passthrough) was not found."
+}
+05/15/2016:20:52:21 restCall():/usr/bin/curl -sk --connect-timeout 5 -m 500 --header Content-Type: application/json -u admin:admin https://10.147.29.214/mgmt/tm/ltm/virtual/DNS_Traffic_Passthrough -X DELETE 
+05/15/2016:20:52:21 Remove VS: {
+    "code": 404,
+    "errorStack": [],
+    "message": "01020036:3: The requested Virtual Server (/Common/DNS_Traffic_Passthrough) was not found."
+}
+05/15/2016:20:52:21 restCall():/usr/bin/curl -sk --connect-timeout 5 -m 500 --header Content-Type: application/json -u admin:admin https://10.147.29.214/mgmt/tm/ltm/virtual/lb_urlfilter -X DELETE 
+05/15/2016:20:52:22 Remove VS: {
+    "code": 404,
+    "errorStack": [],
+    "message": "01020036:3: The requested Virtual Server (/Common/lb_urlfilter) was not found."
+}
+05/15/2016:20:52:22 restCall():/usr/bin/curl -sk --connect-timeout 5 -m 500 --header Content-Type: application/json -u admin:admin https://10.147.29.214/mgmt/tm/ltm/virtual/TrafficListener -X DELETE 
+05/15/2016:20:52:22 Remove VS: {
+    "code": 404,
+    "errorStack": [],
+    "message": "01020036:3: The requested Virtual Server (/Common/TrafficListener) was not found."
+}
+05/15/2016:20:52:22 restCall():/usr/bin/curl -sk --connect-timeout 5 -m 500 --header Content-Type: application/json -u admin:admin https://10.147.29.214/mgmt/tm/ltm/virtual/TrafficPassthrough -X DELETE 
+05/15/2016:20:52:22 Remove VS: {
+    "code": 404,
+    "errorStack": [],
+    "message": "01020036:3: The requested Virtual Server (/Common/TrafficPassthrough) was not found."
+}
+05/15/2016:20:52:22 restCall():/usr/bin/curl -sk --connect-timeout 5 -m 500 --header Content-Type: application/json -u admin:admin https://10.147.29.214/mgmt/tm/ltm/virtual/DNS_Traffic_Passthrough_With_Cache -X DELETE 
+05/15/2016:20:52:22 Remove VS: {
+    "code": 404,
+    "errorStack": [],
+    "message": "01020036:3: The requested Virtual Server (/Common/DNS_Traffic_Passthrough_With_Cache) was not found."
+}
+05/15/2016:20:52:22 ---Disable Global Secuirity Policy
+05/15/2016:20:52:22 restCall():/usr/bin/curl -sk --connect-timeout 5 -m 500 --header Content-Type: application/json -u admin:admin https://10.147.29.214/mgmt/tm/security/firewall/globalRules -X PATCH -d "{ "enforcedPolicy": "none" }"
+05/15/2016:20:52:23 Disable Global security Policy: {
+    "code": 400,
+    "errorStack": [],
+    "message": "\"security\" unexpected argument"
+}
+05/15/2016:20:52:23 ---Removing Security Policies...
+05/15/2016:20:52:23 restCall():/usr/bin/curl -sk --connect-timeout 5 -m 500 --header Content-Type: application/json -u admin:admin https://10.147.29.214/mgmt/tm/security/firewall/policy/CPE_Security_Policy -X DELETE 
+05/15/2016:20:52:24 Remove Security Policy: {
+    "code": 400,
+    "errorStack": [],
+    "message": "\"security\" unexpected argument"
+}
+05/15/2016:20:52:24 ---Remove Pools...
+05/15/2016:20:52:24 restCall():/usr/bin/curl -sk --connect-timeout 5 -m 500 --header Content-Type: application/json -u admin:admin https://10.147.29.214/mgmt/tm/ltm/pool/urlfilter_pool -X DELETE 
+05/15/2016:20:52:24 Remove Pool: {
+    "code": 404,
+    "errorStack": [],
+    "message": "01020036:3: The requested Pool (/Common/urlfilter_pool) was not found."
+}
+05/15/2016:20:52:24 ---Remove all Nodes from List...
+05/15/2016:20:52:24 restCall():/usr/bin/curl -sk --connect-timeout 5 -m 500 --header Content-Type: application/json -u admin:admin https://10.147.29.214/mgmt/tm/ltm/node?$select=name -X GET 
+05/15/2016:20:52:24 ---Remove iRules...
+05/15/2016:20:52:24 restCall():/usr/bin/curl -sk --connect-timeout 5 -m 500 --header Content-Type: application/json -u admin:admin https://10.147.29.214/mgmt/tm/ltm/rule/~Common~URL_Filter -X DELETE 
+05/15/2016:20:52:24 Remove iRule: {
+    "code": 404,
+    "errorStack": [],
+    "message": "01020036:3: The requested iRule (/Common/URL_Filter) was not found."
+}
+05/15/2016:20:52:24 restCall():/usr/bin/curl -sk --connect-timeout 5 -m 500 --header Content-Type: application/json -u admin:admin https://10.147.29.214/mgmt/tm/ltm/rule/~Common~Assign_BWC_Policy -X DELETE 
+05/15/2016:20:52:24 Remove iRule: {
+    "code": 404,
+    "errorStack": [],
+    "message": "01020036:3: The requested iRule (/Common/Assign_BWC_Policy) was not found."
+}
+05/15/2016:20:52:24 ---Remove Data Groups...
+05/15/2016:20:52:24 restCall():/usr/bin/curl -sk --connect-timeout 5 -m 500 --header Content-Type: application/json -u admin:admin https://10.147.29.214/mgmt/tm/ltm/data-group/internal/~Common~URL_Block_List -X DELETE 
+05/15/2016:20:52:25 Remove DataGroup: {
+    "code": 404,
+    "errorStack": [],
+    "message": "01020036:3: The requested value list (/Common/URL_Block_List) was not found."
+}
+05/15/2016:20:52:25 ---Remove Profiles...
+05/15/2016:20:52:25 restCall():/usr/bin/curl -sk --connect-timeout 5 -m 500 --header Content-Type: application/json -u admin:admin https://10.147.29.214/mgmt/tm/ltm/profile/dns/dns_cache -X DELETE 
+05/15/2016:20:52:25 Remove Profile: {
+    "code": 404,
+    "errorStack": [],
+    "message": "01020036:3: The requested DNS Profile (/Common/dns_cache) was not found."
+}
+05/15/2016:20:52:25 ---Remove DNS Caches...
+05/15/2016:20:52:25 restCall():/usr/bin/curl -sk --connect-timeout 5 -m 500 --header Content-Type: application/json -u admin:admin https://10.147.29.214/mgmt/tm/ltm/dns/cache/transparent/~Common~DNS_Cache -X DELETE 
+05/15/2016:20:52:25 Remove DNS Cache: {
+    "code": 404,
+    "errorStack": [],
+    "message": "01020036:3: The requested DNS Cache/Resolver (/Common/DNS_Cache) was not found."
+}
+05/15/2016:20:52:25 ---Remove BWC Policies...
+05/15/2016:20:52:26 restCall():/usr/bin/curl -sk --connect-timeout 5 -m 500 --header Content-Type: application/json -u admin:admin https://10.147.29.214/mgmt/tm/net/bwc-policy/~Common~Base_Traffic_BWC -X DELETE 
+05/15/2016:20:52:26 ---Remove SelfIPs...
+05/15/2016:20:52:26 restCall():/usr/bin/curl -sk --connect-timeout 5 -m 500 --header Content-Type: application/json -u admin:admin https://10.147.29.214/mgmt/tm/net/self?$select=name -X GET 
+05/15/2016:20:52:27 ---Remove VLANs...
+05/15/2016:20:52:27 restCall():/usr/bin/curl -sk --connect-timeout 5 -m 500 --header Content-Type: application/json -u admin:admin https://10.147.29.214/mgmt/tm/net/vlan?$select=name -X GET 
+05/15/2016:20:52:27 ---Check to see if AFM is enabled...
+05/15/2016:20:52:27 restCall():/usr/bin/curl -sk --connect-timeout 5 -m 500 --header Content-Type: application/json -u admin:admin https://10.147.29.214/mgmt/tm/sys/provision/?$select=name,level -X GET 
+05/15/2016:20:52:28 ----Saving the new Configuration...
+05/15/2016:20:52:28 restCall():/usr/bin/curl -sk --connect-timeout 5 -m 500 --header Content-Type: application/json -u admin:admin https://10.147.29.214/mgmt/tm/sys/config -X POST -d "{"command": "save"}"
+05/15/2016:20:52:30 saveConfig(): {
+    "command": "save",
+    "kind": "tm:sys:config:savestate"
+}
+05/15/2016:20:52:31 *** BIGIP Reset is now complete ***

@@ -1,0 +1,917 @@
+05/14/2016:22:08:17 *** Program Start ***
+05/14/2016:22:08:17 ----Checking to see if we can talk to BIGIP...
+05/14/2016:22:08:18 restCall():/usr/bin/curl -sk --connect-timeout 5 -m 240 --header Content-Type: application/json -u admin:admin https://10.147.29.214/mgmt/tm/ltm/available -X GET 
+05/14/2016:22:08:18 isAvailable():{}
+05/14/2016:22:08:18 ---Retrieving BIGIP Version number...
+05/14/2016:22:08:18 restCall():/usr/bin/curl -sk --connect-timeout 5 -m 240 --header Content-Type: application/json -u admin:admin https://10.147.29.214/mgmt/tm/cloud/net/software-status -X GET 
+05/14/2016:22:08:19 getVersion(): True
+05/14/2016:22:08:19 restCall():/usr/bin/curl -sk --connect-timeout 5 -m 240 --header Content-Type: application/json -u admin:admin https://10.147.29.214/mgmt/tm/cloud/net/software-status -X GET 
+05/14/2016:22:08:19 getVersion(): 11.6.0
+05/14/2016:22:08:19 ----Disable the Setup Wizard on the Admin GUI.
+05/14/2016:22:08:19 restCall():/usr/bin/curl -sk --connect-timeout 5 -m 240 --header Content-Type: application/json -u admin:admin https://10.147.29.214/mgmt/tm/sys/global-settings -X PUT -d "{"guiSetup": "disabled"}"
+05/14/2016:22:08:20 :: {
+    "awsApiMaxConcurrency": 1,
+    "consoleInactivityTimeout": 0,
+    "customAddr": "none",
+    "failsafeAction": "go-offline-restart-tm",
+    "fileLocalPathPrefix": "{/shared/} {/tmp/}",
+    "guiSecurityBanner": "enabled",
+    "guiSecurityBannerText": "Welcome to the BIG-IP Configuration Utility.\n\nLog in with your username and password using the fields on the left.",
+    "guiSetup": "disabled",
+    "hostAddrMode": "management",
+    "hostname": "host-10-10-10-54.cloud",
+    "kind": "tm:sys:global-settings:global-settingsstate",
+    "lcdDisplay": "enabled",
+    "mgmtDhcp": "enabled",
+    "netReboot": "disabled",
+    "passwordPrompt": "Password",
+    "quietBoot": "enabled",
+    "selfLink": "https://localhost/mgmt/tm/sys/global-settings?ver=11.6.0",
+    "usernamePrompt": "Username"
+}
+05/14/2016:22:08:20 ----Turning on Advanced Firewall Module (AFM).
+05/14/2016:22:08:20 restCall():/usr/bin/curl -sk --connect-timeout 5 -m 240 --header Content-Type: application/json -u admin:admin https://10.147.29.214/mgmt/tm/sys/provision/afm -X PUT -d "{ "level": "nominal" }"
+05/14/2016:22:08:24 enableModule(): {
+    "cpuRatio": 0,
+    "diskRatio": 0,
+    "fullPath": "afm",
+    "generation": 421,
+    "kind": "tm:sys:provision:provisionstate",
+    "level": "nominal",
+    "memoryRatio": 0,
+    "name": "afm",
+    "selfLink": "https://localhost/mgmt/tm/sys/provision/afm?ver=11.6.0"
+}
+05/14/2016:22:08:24 ----Waiting for BIGIP to reconfigure itself for AFM. This can take a minute or two.
+05/14/2016:22:08:42 restCall():/usr/bin/curl -sk --connect-timeout 5 -m 240 --header Content-Type: application/json -u admin:admin https://10.147.29.214/mgmt/tm/sys/failover -X GET 
+05/14/2016:22:08:42 waitForActiveStatus(): no
+05/14/2016:22:08:45 restCall():/usr/bin/curl -sk --connect-timeout 5 -m 240 --header Content-Type: application/json -u admin:admin https://10.147.29.214/mgmt/tm/sys/failover -X GET 
+05/14/2016:22:08:46 waitForActiveStatus(): no
+05/14/2016:22:08:49 restCall():/usr/bin/curl -sk --connect-timeout 5 -m 240 --header Content-Type: application/json -u admin:admin https://10.147.29.214/mgmt/tm/sys/failover -X GET 
+05/14/2016:22:08:49 waitForActiveStatus(): no
+05/14/2016:22:08:52 restCall():/usr/bin/curl -sk --connect-timeout 5 -m 240 --header Content-Type: application/json -u admin:admin https://10.147.29.214/mgmt/tm/sys/failover -X GET 
+05/14/2016:22:08:52 waitForActiveStatus(): active
+05/14/2016:22:08:57 ----Checking to see if we can talk to BIGIP again...
+05/14/2016:22:08:58 restCall():/usr/bin/curl -sk --connect-timeout 5 -m 240 --header Content-Type: application/json -u admin:admin https://10.147.29.214/mgmt/tm/ltm/available -X GET 
+05/14/2016:22:08:58 isAvailable():{}
+05/14/2016:22:08:58 ----Setting Hostname to fw1.nokia.com.
+05/14/2016:22:08:58 restCall():/usr/bin/curl -sk --connect-timeout 5 -m 240 --header Content-Type: application/json -u admin:admin https://10.147.29.214/mgmt/tm/sys/global-settings -X PATCH -d "{ "hostname": "fw1.nokia.com" }"
+05/14/2016:22:09:01 ::{
+    "awsApiMaxConcurrency": 1,
+    "consoleInactivityTimeout": 0,
+    "customAddr": "none",
+    "failsafeAction": "go-offline-restart-tm",
+    "fileLocalPathPrefix": "{/shared/} {/tmp/}",
+    "guiSecurityBanner": "enabled",
+    "guiSecurityBannerText": "Welcome to the BIG-IP Configuration Utility.\n\nLog in with your username and password using the fields on the left.",
+    "guiSetup": "disabled",
+    "hostAddrMode": "management",
+    "hostname": "fw1.nokia.com",
+    "kind": "tm:sys:global-settings:global-settingsstate",
+    "lcdDisplay": "enabled",
+    "mgmtDhcp": "enabled",
+    "netReboot": "disabled",
+    "passwordPrompt": "Password",
+    "quietBoot": "enabled",
+    "selfLink": "https://localhost/mgmt/tm/sys/global-settings?ver=11.6.0",
+    "usernamePrompt": "Username"
+}
+05/14/2016:22:09:01 ----Setting up 'internal' VLAN and SelfIP.
+05/14/2016:22:09:01 restCall():/usr/bin/curl -sk --connect-timeout 5 -m 240 --header Content-Type: application/json -u admin:admin https://10.147.29.214/mgmt/tm/net/vlan -X POST -d "{ "name": "internal", "interfaces": "1.1" }"
+05/14/2016:22:09:01 ::{
+    "autoLasthop": "default",
+    "cmpHash": "default",
+    "dagRoundRobin": "disabled",
+    "dagTunnel": "outer",
+    "failsafe": "disabled",
+    "failsafeAction": "failover-restart-tm",
+    "failsafeTimeout": 90,
+    "fullPath": "internal",
+    "generation": 457,
+    "ifIndex": 368,
+    "interfacesReference": {
+        "isSubcollection": true,
+        "link": "https://localhost/mgmt/tm/net/vlan/~Common~internal/interfaces?ver=11.6.0"
+    },
+    "kind": "tm:net:vlan:vlanstate",
+    "learning": "enable-forward",
+    "mtu": 1500,
+    "name": "internal",
+    "selfLink": "https://localhost/mgmt/tm/net/vlan/internal?ver=11.6.0",
+    "sflow": {
+        "pollInterval": 0,
+        "pollIntervalGlobal": "yes",
+        "samplingRate": 0,
+        "samplingRateGlobal": "yes"
+    },
+    "sourceChecking": "disabled",
+    "tag": 4094
+}
+05/14/2016:22:09:01 restCall():/usr/bin/curl -sk --connect-timeout 5 -m 240 --header Content-Type: application/json -u admin:admin https://10.147.29.214/mgmt/tm/net/self -X POST -d "{ "name": "internal", "address":    "10.1.1.62/24", "vlan": "internal", "allowService": "all" }"
+05/14/2016:22:09:01 ::{
+    "address": "10.1.1.62/24",
+    "allowService": "all",
+    "floating": "disabled",
+    "fullPath": "internal",
+    "generation": 463,
+    "inheritedTrafficGroup": "false",
+    "kind": "tm:net:self:selfstate",
+    "name": "internal",
+    "selfLink": "https://localhost/mgmt/tm/net/self/internal?ver=11.6.0",
+    "trafficGroup": "/Common/traffic-group-local-only",
+    "unit": 0,
+    "vlan": "/Common/internal"
+}
+05/14/2016:22:09:02 ----Setting up 'external' VLAN and SelfIP.
+05/14/2016:22:09:02 restCall():/usr/bin/curl -sk --connect-timeout 5 -m 240 --header Content-Type: application/json -u admin:admin https://10.147.29.214/mgmt/tm/net/vlan -X POST -d "{ "name": "external", "interfaces": "1.2" }"
+05/14/2016:22:09:02 ::{
+    "autoLasthop": "default",
+    "cmpHash": "default",
+    "dagRoundRobin": "disabled",
+    "dagTunnel": "outer",
+    "failsafe": "disabled",
+    "failsafeAction": "failover-restart-tm",
+    "failsafeTimeout": 90,
+    "fullPath": "external",
+    "generation": 466,
+    "ifIndex": 384,
+    "interfacesReference": {
+        "isSubcollection": true,
+        "link": "https://localhost/mgmt/tm/net/vlan/~Common~external/interfaces?ver=11.6.0"
+    },
+    "kind": "tm:net:vlan:vlanstate",
+    "learning": "enable-forward",
+    "mtu": 1500,
+    "name": "external",
+    "selfLink": "https://localhost/mgmt/tm/net/vlan/external?ver=11.6.0",
+    "sflow": {
+        "pollInterval": 0,
+        "pollIntervalGlobal": "yes",
+        "samplingRate": 0,
+        "samplingRateGlobal": "yes"
+    },
+    "sourceChecking": "disabled",
+    "tag": 4093
+}
+05/14/2016:22:09:02 restCall():/usr/bin/curl -sk --connect-timeout 5 -m 240 --header Content-Type: application/json -u admin:admin https://10.147.29.214/mgmt/tm/net/self -X POST -d "{ "name": "external", "address":    "10.2.2.58/24", "vlan": "external", "allowService": "all" }"
+05/14/2016:22:09:02 ::{
+    "address": "10.2.2.58/24",
+    "allowService": "all",
+    "floating": "disabled",
+    "fullPath": "external",
+    "generation": 471,
+    "inheritedTrafficGroup": "false",
+    "kind": "tm:net:self:selfstate",
+    "name": "external",
+    "selfLink": "https://localhost/mgmt/tm/net/self/external?ver=11.6.0",
+    "trafficGroup": "/Common/traffic-group-local-only",
+    "unit": 0,
+    "vlan": "/Common/external"
+}
+05/14/2016:22:09:02 ----Set up next hop for Traffic flow.
+05/14/2016:22:09:02 restCall():/usr/bin/curl -sk --connect-timeout 5 -m 240 --header Content-Type: application/json -u admin:admin https://10.147.29.214/mgmt/tm/net/route -X POST -d "{ "name": "DefaultRoute", "partition": "Common",       "network": "default", "gw": "10.2.2.1" }"
+05/14/2016:22:09:02 setDefaultRoute(): {
+    "fullPath": "/Common/DefaultRoute",
+    "generation": 475,
+    "gw": "10.2.2.1",
+    "kind": "tm:net:route:routestate",
+    "mtu": 0,
+    "name": "DefaultRoute",
+    "network": "default",
+    "partition": "Common",
+    "selfLink": "https://localhost/mgmt/tm/net/route/~Common~DefaultRoute?ver=11.6.0"
+}
+05/14/2016:22:09:03 ----Setup SNMP Agent access.
+05/14/2016:22:09:03 restCall():/usr/bin/curl -sk --connect-timeout 5 -m 240 --header Content-Type: application/json -u admin:admin https://10.147.29.214/mgmt/tm/sys/snmp -X PUT -d "{ "allowed-addresses": ["127.", "10."] }"
+05/14/2016:22:09:04 :: {
+    "agentAddresses": [
+        "tcp6:161",
+        "udp6:161"
+    ],
+    "agentTrap": "enabled",
+    "allowedAddresses": [
+        "127.",
+        "10."
+    ],
+    "authTrap": "disabled",
+    "bigipTraps": "enabled",
+    "communitiesReference": {
+        "isSubcollection": true,
+        "link": "https://localhost/mgmt/tm/sys/snmp/communities?ver=11.6.0"
+    },
+    "diskMonitors": [
+        {
+            "minspace": 2000,
+            "minspaceType": "size",
+            "name": "/Common/root",
+            "path": "/"
+        },
+        {
+            "minspace": 10000,
+            "minspaceType": "size",
+            "name": "/Common/var",
+            "path": "/var"
+        }
+    ],
+    "kind": "tm:sys:snmp:snmpstate",
+    "l2forwardVlan": "none",
+    "loadMax1": 12,
+    "loadMax15": 12,
+    "loadMax5": 12,
+    "processMonitors": [
+        {
+            "maxProcesses": "1",
+            "minProcesses": 1,
+            "name": "/Common/bigd",
+            "process": "bigd"
+        },
+        {
+            "maxProcesses": "1",
+            "minProcesses": 1,
+            "name": "/Common/chmand",
+            "process": "chmand"
+        },
+        {
+            "maxProcesses": "infinity",
+            "minProcesses": 1,
+            "name": "/Common/httpd",
+            "process": "httpd"
+        },
+        {
+            "maxProcesses": "1",
+            "minProcesses": 1,
+            "name": "/Common/mcpd",
+            "process": "mcpd"
+        },
+        {
+            "maxProcesses": "1",
+            "minProcesses": 1,
+            "name": "/Common/sod",
+            "process": "sod"
+        },
+        {
+            "maxProcesses": "infinity",
+            "minProcesses": 1,
+            "name": "/Common/tmm",
+            "process": "tmm"
+        }
+    ],
+    "selfLink": "https://localhost/mgmt/tm/sys/snmp?ver=11.6.0",
+    "sysContact": "Customer Name <admin@customer.com>",
+    "sysLocation": "Network Closet 1",
+    "sysServices": 78,
+    "trapCommunity": "public",
+    "trapSource": "none",
+    "trapsReference": {
+        "isSubcollection": true,
+        "link": "https://localhost/mgmt/tm/sys/snmp/traps?ver=11.6.0"
+    },
+    "usersReference": {
+        "isSubcollection": true,
+        "link": "https://localhost/mgmt/tm/sys/snmp/users?ver=11.6.0"
+    }
+}
+05/14/2016:22:09:04 ----Setup initial Security Policy...
+05/14/2016:22:09:04 restCall():/usr/bin/curl -sk --connect-timeout 5 -m 240 --header Content-Type: application/json -u admin:admin https://10.147.29.214/mgmt/tm/security/firewall/policy -X POST -d "{ "name": "CPE_Security_Policy",     "description": "Created by F5FirewallConfigExample script" }"
+05/14/2016:22:09:04 createSecurityPolicy(): {
+    "description": "Created by F5FirewallConfigExample script",
+    "fullPath": "CPE_Security_Policy",
+    "generation": 477,
+    "kind": "tm:security:firewall:policy:policystate",
+    "name": "CPE_Security_Policy",
+    "rulesReference": {
+        "isSubcollection": true,
+        "link": "https://localhost/mgmt/tm/security/firewall/policy/~Common~CPE_Security_Policy/rules?ver=11.6.0"
+    },
+    "selfLink": "https://localhost/mgmt/tm/security/firewall/policy/CPE_Security_Policy?ver=11.6.0"
+}
+05/14/2016:22:09:04 ----Add Ruleset to Security Policy...
+05/14/2016:22:09:04 restCall():/usr/bin/curl -sk --connect-timeout 5 -m 240 --header Content-Type: application/json -u admin:admin https://10.147.29.214/mgmt/tm/security/firewall/policy/~Common~CPE_Security_Policy/rules -X POST -d "{ "name": "WebAccess", "action": "accept",     "place-before": "last", "destination": { "addresses": "any",     "ports": [ { "name": "80" } ] }, "ipProtocol": "tcp" }"
+05/14/2016:22:09:05 addRule(): {
+    "action": "accept",
+    "destination": {
+        "addresses": [
+            {
+                "name": "0.0.0.0"
+            }
+        ],
+        "ports": [
+            {
+                "name": "80"
+            }
+        ]
+    },
+    "fullPath": "WebAccess",
+    "generation": 477,
+    "ipProtocol": "tcp",
+    "iruleSampleRate": 1,
+    "kind": "tm:security:firewall:policy:rules:rulesstate",
+    "log": "no",
+    "name": "WebAccess",
+    "selfLink": "https://localhost/mgmt/tm/security/firewall/policy/~Common~CPE_Security_Policy/rules/WebAccess?ver=11.6.0",
+    "source": {
+        "identity": {}
+    },
+    "status": "enabled"
+}
+05/14/2016:22:09:05 restCall():/usr/bin/curl -sk --connect-timeout 5 -m 240 --header Content-Type: application/json -u admin:admin https://10.147.29.214/mgmt/tm/security/firewall/policy/~Common~CPE_Security_Policy/rules -X POST -d "{ "name": "SecureWebAccess", "action": "accept",     "place-before": "last", "destination": { "addresses": "any",     "ports": [ { "name": "443" } ] }, "ipProtocol": "tcp" }"
+05/14/2016:22:09:05 addRule(): {
+    "action": "accept",
+    "destination": {
+        "addresses": [
+            {
+                "name": "0.0.0.0"
+            }
+        ],
+        "ports": [
+            {
+                "name": "443"
+            }
+        ]
+    },
+    "fullPath": "SecureWebAccess",
+    "generation": 477,
+    "ipProtocol": "tcp",
+    "iruleSampleRate": 1,
+    "kind": "tm:security:firewall:policy:rules:rulesstate",
+    "log": "no",
+    "name": "SecureWebAccess",
+    "selfLink": "https://localhost/mgmt/tm/security/firewall/policy/~Common~CPE_Security_Policy/rules/SecureWebAccess?ver=11.6.0",
+    "source": {
+        "identity": {}
+    },
+    "status": "enabled"
+}
+05/14/2016:22:09:05 restCall():/usr/bin/curl -sk --connect-timeout 5 -m 240 --header Content-Type: application/json -u admin:admin https://10.147.29.214/mgmt/tm/security/firewall/policy/~Common~CPE_Security_Policy/rules -X POST -d "{ "name": "SSH", "action": "accept",     "place-before": "last", "destination": { "addresses": "any",     "ports": [ { "name": "22" } ] }, "ipProtocol": "tcp" }"
+05/14/2016:22:09:05 addRule(): {
+    "action": "accept",
+    "destination": {
+        "addresses": [
+            {
+                "name": "0.0.0.0"
+            }
+        ],
+        "ports": [
+            {
+                "name": "22"
+            }
+        ]
+    },
+    "fullPath": "SSH",
+    "generation": 477,
+    "ipProtocol": "tcp",
+    "iruleSampleRate": 1,
+    "kind": "tm:security:firewall:policy:rules:rulesstate",
+    "log": "no",
+    "name": "SSH",
+    "selfLink": "https://localhost/mgmt/tm/security/firewall/policy/~Common~CPE_Security_Policy/rules/SSH?ver=11.6.0",
+    "source": {
+        "identity": {}
+    },
+    "status": "enabled"
+}
+05/14/2016:22:09:05 restCall():/usr/bin/curl -sk --connect-timeout 5 -m 240 --header Content-Type: application/json -u admin:admin https://10.147.29.214/mgmt/tm/security/firewall/policy/~Common~CPE_Security_Policy/rules -X POST -d "{ "name": "DNS", "action": "accept",     "place-before": "last", "destination": { "addresses": "any",     "ports": [ { "name": "53" } ] }, "ipProtocol": "udp" }"
+05/14/2016:22:09:05 addRule(): {
+    "action": "accept",
+    "destination": {
+        "addresses": [
+            {
+                "name": "0.0.0.0"
+            }
+        ],
+        "ports": [
+            {
+                "name": "53"
+            }
+        ]
+    },
+    "fullPath": "DNS",
+    "generation": 477,
+    "ipProtocol": "udp",
+    "iruleSampleRate": 1,
+    "kind": "tm:security:firewall:policy:rules:rulesstate",
+    "log": "no",
+    "name": "DNS",
+    "selfLink": "https://localhost/mgmt/tm/security/firewall/policy/~Common~CPE_Security_Policy/rules/DNS?ver=11.6.0",
+    "source": {
+        "identity": {}
+    },
+    "status": "enabled"
+}
+05/14/2016:22:09:05 restCall():/usr/bin/curl -sk --connect-timeout 5 -m 240 --header Content-Type: application/json -u admin:admin https://10.147.29.214/mgmt/tm/security/firewall/policy/~Common~CPE_Security_Policy/rules -X POST -d "{ "name": "FTP", "action": "accept",     "place-before": "last", "destination": { "addresses": "any",     "ports": [ { "name": "21" } ] }, "ipProtocol": "tcp" }"
+05/14/2016:22:09:06 addRule(): {
+    "action": "accept",
+    "destination": {
+        "addresses": [
+            {
+                "name": "0.0.0.0"
+            }
+        ],
+        "ports": [
+            {
+                "name": "21"
+            }
+        ]
+    },
+    "fullPath": "FTP",
+    "generation": 477,
+    "ipProtocol": "tcp",
+    "iruleSampleRate": 1,
+    "kind": "tm:security:firewall:policy:rules:rulesstate",
+    "log": "no",
+    "name": "FTP",
+    "selfLink": "https://localhost/mgmt/tm/security/firewall/policy/~Common~CPE_Security_Policy/rules/FTP?ver=11.6.0",
+    "source": {
+        "identity": {}
+    },
+    "status": "enabled"
+}
+05/14/2016:22:09:06 restCall():/usr/bin/curl -sk --connect-timeout 5 -m 240 --header Content-Type: application/json -u admin:admin https://10.147.29.214/mgmt/tm/security/firewall/policy/~Common~CPE_Security_Policy/rules -X POST -d "{ "name": "FTP-Data", "action": "accept",     "place-before": "last", "destination": { "addresses": "any",     "ports": [ { "name": "20" } ] }, "ipProtocol": "tcp" }"
+05/14/2016:22:09:06 addRule(): {
+    "action": "accept",
+    "destination": {
+        "addresses": [
+            {
+                "name": "0.0.0.0"
+            }
+        ],
+        "ports": [
+            {
+                "name": "20"
+            }
+        ]
+    },
+    "fullPath": "FTP-Data",
+    "generation": 477,
+    "ipProtocol": "tcp",
+    "iruleSampleRate": 1,
+    "kind": "tm:security:firewall:policy:rules:rulesstate",
+    "log": "no",
+    "name": "FTP-Data",
+    "selfLink": "https://localhost/mgmt/tm/security/firewall/policy/~Common~CPE_Security_Policy/rules/FTP-Data?ver=11.6.0",
+    "source": {
+        "identity": {}
+    },
+    "status": "enabled"
+}
+05/14/2016:22:09:06 restCall():/usr/bin/curl -sk --connect-timeout 5 -m 240 --header Content-Type: application/json -u admin:admin https://10.147.29.214/mgmt/tm/security/firewall/policy/~Common~CPE_Security_Policy/rules -X POST -d "{ "name": "Telnet", "action": "accept",     "place-before": "last", "destination": { "addresses": "any",     "ports": [ { "name": "23" } ] }, "ipProtocol": "tcp" }"
+05/14/2016:22:09:06 addRule(): {
+    "action": "accept",
+    "destination": {
+        "addresses": [
+            {
+                "name": "0.0.0.0"
+            }
+        ],
+        "ports": [
+            {
+                "name": "23"
+            }
+        ]
+    },
+    "fullPath": "Telnet",
+    "generation": 477,
+    "ipProtocol": "tcp",
+    "iruleSampleRate": 1,
+    "kind": "tm:security:firewall:policy:rules:rulesstate",
+    "log": "no",
+    "name": "Telnet",
+    "selfLink": "https://localhost/mgmt/tm/security/firewall/policy/~Common~CPE_Security_Policy/rules/Telnet?ver=11.6.0",
+    "source": {
+        "identity": {}
+    },
+    "status": "enabled"
+}
+05/14/2016:22:09:06 restCall():/usr/bin/curl -sk --connect-timeout 5 -m 240 --header Content-Type: application/json -u admin:admin https://10.147.29.214/mgmt/tm/security/firewall/policy/~Common~CPE_Security_Policy/rules -X POST -d "{ "name": "NTP", "action": "accept",     "place-before": "last", "destination": { "addresses": "any",     "ports": [ { "name": "123" } ] }, "ipProtocol": "tcp" }"
+05/14/2016:22:09:07 addRule(): {
+    "action": "accept",
+    "destination": {
+        "addresses": [
+            {
+                "name": "0.0.0.0"
+            }
+        ],
+        "ports": [
+            {
+                "name": "123"
+            }
+        ]
+    },
+    "fullPath": "NTP",
+    "generation": 477,
+    "ipProtocol": "tcp",
+    "iruleSampleRate": 1,
+    "kind": "tm:security:firewall:policy:rules:rulesstate",
+    "log": "no",
+    "name": "NTP",
+    "selfLink": "https://localhost/mgmt/tm/security/firewall/policy/~Common~CPE_Security_Policy/rules/NTP?ver=11.6.0",
+    "source": {
+        "identity": {}
+    },
+    "status": "enabled"
+}
+05/14/2016:22:09:07 restCall():/usr/bin/curl -sk --connect-timeout 5 -m 240 --header Content-Type: application/json -u admin:admin https://10.147.29.214/mgmt/tm/security/firewall/policy/~Common~CPE_Security_Policy/rules -X POST -d "{ "name": "Ping", "action": "accept",     "place-before": "last", "destination": { }, "icmp": [ { "name": "80" } ],     "ipProtocol": "icmp" }"
+05/14/2016:22:09:07 addRule(): {
+    "action": "accept",
+    "destination": {},
+    "fullPath": "Ping",
+    "generation": 477,
+    "icmp": [
+        {
+            "name": "80"
+        }
+    ],
+    "ipProtocol": "icmp",
+    "iruleSampleRate": 1,
+    "kind": "tm:security:firewall:policy:rules:rulesstate",
+    "log": "no",
+    "name": "Ping",
+    "selfLink": "https://localhost/mgmt/tm/security/firewall/policy/~Common~CPE_Security_Policy/rules/Ping?ver=11.6.0",
+    "source": {
+        "identity": {}
+    },
+    "status": "enabled"
+}
+05/14/2016:22:09:07 restCall():/usr/bin/curl -sk --connect-timeout 5 -m 240 --header Content-Type: application/json -u admin:admin https://10.147.29.214/mgmt/tm/security/firewall/policy/~Common~CPE_Security_Policy/rules -X POST -d "{ "name": "SMTP", "action": "accept",     "place-before": "last", "destination": { "addresses": "any",     "ports": [ { "name": "25" } ] }, "ipProtocol": "tcp" }"
+05/14/2016:22:09:07 addRule(): {
+    "action": "accept",
+    "destination": {
+        "addresses": [
+            {
+                "name": "0.0.0.0"
+            }
+        ],
+        "ports": [
+            {
+                "name": "25"
+            }
+        ]
+    },
+    "fullPath": "SMTP",
+    "generation": 477,
+    "ipProtocol": "tcp",
+    "iruleSampleRate": 1,
+    "kind": "tm:security:firewall:policy:rules:rulesstate",
+    "log": "no",
+    "name": "SMTP",
+    "selfLink": "https://localhost/mgmt/tm/security/firewall/policy/~Common~CPE_Security_Policy/rules/SMTP?ver=11.6.0",
+    "source": {
+        "identity": {}
+    },
+    "status": "enabled"
+}
+05/14/2016:22:09:07 restCall():/usr/bin/curl -sk --connect-timeout 5 -m 240 --header Content-Type: application/json -u admin:admin https://10.147.29.214/mgmt/tm/security/firewall/policy/~Common~CPE_Security_Policy/rules -X POST -d "{ "name": "BootPC", "action": "accept",     "place-before": "last", "destination": { "addresses": "any",     "ports": [ { "name": "68" } ] }, "ipProtocol": "tcp" }"
+05/14/2016:22:09:08 addRule(): {
+    "action": "accept",
+    "destination": {
+        "addresses": [
+            {
+                "name": "0.0.0.0"
+            }
+        ],
+        "ports": [
+            {
+                "name": "68"
+            }
+        ]
+    },
+    "fullPath": "BootPC",
+    "generation": 477,
+    "ipProtocol": "tcp",
+    "iruleSampleRate": 1,
+    "kind": "tm:security:firewall:policy:rules:rulesstate",
+    "log": "no",
+    "name": "BootPC",
+    "selfLink": "https://localhost/mgmt/tm/security/firewall/policy/~Common~CPE_Security_Policy/rules/BootPC?ver=11.6.0",
+    "source": {
+        "identity": {}
+    },
+    "status": "enabled"
+}
+05/14/2016:22:09:08 restCall():/usr/bin/curl -sk --connect-timeout 5 -m 240 --header Content-Type: application/json -u admin:admin https://10.147.29.214/mgmt/tm/security/firewall/policy/~Common~CPE_Security_Policy/rules -X POST -d "{ "name": "TFTP", "action": "accept",     "place-before": "last", "destination": { "addresses": "any",     "ports": [ { "name": "69" } ] }, "ipProtocol": "tcp" }"
+05/14/2016:22:09:08 addRule(): {
+    "action": "accept",
+    "destination": {
+        "addresses": [
+            {
+                "name": "0.0.0.0"
+            }
+        ],
+        "ports": [
+            {
+                "name": "69"
+            }
+        ]
+    },
+    "fullPath": "TFTP",
+    "generation": 477,
+    "ipProtocol": "tcp",
+    "iruleSampleRate": 1,
+    "kind": "tm:security:firewall:policy:rules:rulesstate",
+    "log": "no",
+    "name": "TFTP",
+    "selfLink": "https://localhost/mgmt/tm/security/firewall/policy/~Common~CPE_Security_Policy/rules/TFTP?ver=11.6.0",
+    "source": {
+        "identity": {}
+    },
+    "status": "enabled"
+}
+05/14/2016:22:09:08 restCall():/usr/bin/curl -sk --connect-timeout 5 -m 240 --header Content-Type: application/json -u admin:admin https://10.147.29.214/mgmt/tm/security/firewall/policy/~Common~CPE_Security_Policy/rules -X POST -d "{ "name": "POP3", "action": "accept",     "place-before": "last", "destination": { "addresses": "any",     "ports": [ { "name": "110" } ] }, "ipProtocol": "tcp" }"
+05/14/2016:22:09:08 addRule(): {
+    "action": "accept",
+    "destination": {
+        "addresses": [
+            {
+                "name": "0.0.0.0"
+            }
+        ],
+        "ports": [
+            {
+                "name": "110"
+            }
+        ]
+    },
+    "fullPath": "POP3",
+    "generation": 477,
+    "ipProtocol": "tcp",
+    "iruleSampleRate": 1,
+    "kind": "tm:security:firewall:policy:rules:rulesstate",
+    "log": "no",
+    "name": "POP3",
+    "selfLink": "https://localhost/mgmt/tm/security/firewall/policy/~Common~CPE_Security_Policy/rules/POP3?ver=11.6.0",
+    "source": {
+        "identity": {}
+    },
+    "status": "enabled"
+}
+05/14/2016:22:09:08 restCall():/usr/bin/curl -sk --connect-timeout 5 -m 240 --header Content-Type: application/json -u admin:admin https://10.147.29.214/mgmt/tm/security/firewall/policy/~Common~CPE_Security_Policy/rules -X POST -d "{ "name": "IMAP", "action": "accept",     "place-before": "last", "destination": { "addresses": "any",     "ports": [ { "name": "143" } ] }, "ipProtocol": "tcp" }"
+05/14/2016:22:09:08 addRule(): {
+    "action": "accept",
+    "destination": {
+        "addresses": [
+            {
+                "name": "0.0.0.0"
+            }
+        ],
+        "ports": [
+            {
+                "name": "143"
+            }
+        ]
+    },
+    "fullPath": "IMAP",
+    "generation": 477,
+    "ipProtocol": "tcp",
+    "iruleSampleRate": 1,
+    "kind": "tm:security:firewall:policy:rules:rulesstate",
+    "log": "no",
+    "name": "IMAP",
+    "selfLink": "https://localhost/mgmt/tm/security/firewall/policy/~Common~CPE_Security_Policy/rules/IMAP?ver=11.6.0",
+    "source": {
+        "identity": {}
+    },
+    "status": "enabled"
+}
+05/14/2016:22:09:09 restCall():/usr/bin/curl -sk --connect-timeout 5 -m 240 --header Content-Type: application/json -u admin:admin https://10.147.29.214/mgmt/tm/security/firewall/policy/~Common~CPE_Security_Policy/rules -X POST -d "{ "name": "SNMP", "action": "accept",     "place-before": "last", "destination": { "addresses": "any",     "ports": [ { "name": "161" } ] }, "ipProtocol": "tcp" }"
+05/14/2016:22:09:09 addRule(): {
+    "action": "accept",
+    "destination": {
+        "addresses": [
+            {
+                "name": "0.0.0.0"
+            }
+        ],
+        "ports": [
+            {
+                "name": "161"
+            }
+        ]
+    },
+    "fullPath": "SNMP",
+    "generation": 477,
+    "ipProtocol": "tcp",
+    "iruleSampleRate": 1,
+    "kind": "tm:security:firewall:policy:rules:rulesstate",
+    "log": "no",
+    "name": "SNMP",
+    "selfLink": "https://localhost/mgmt/tm/security/firewall/policy/~Common~CPE_Security_Policy/rules/SNMP?ver=11.6.0",
+    "source": {
+        "identity": {}
+    },
+    "status": "enabled"
+}
+05/14/2016:22:09:09 restCall():/usr/bin/curl -sk --connect-timeout 5 -m 240 --header Content-Type: application/json -u admin:admin https://10.147.29.214/mgmt/tm/security/firewall/policy/~Common~CPE_Security_Policy/rules -X POST -d "{ "name": "SNMP-Trap", "action": "accept",     "place-before": "last", "destination": { "addresses": "any",     "ports": [ { "name": "162" } ] }, "ipProtocol": "tcp" }"
+05/14/2016:22:09:09 addRule(): {
+    "action": "accept",
+    "destination": {
+        "addresses": [
+            {
+                "name": "0.0.0.0"
+            }
+        ],
+        "ports": [
+            {
+                "name": "162"
+            }
+        ]
+    },
+    "fullPath": "SNMP-Trap",
+    "generation": 477,
+    "ipProtocol": "tcp",
+    "iruleSampleRate": 1,
+    "kind": "tm:security:firewall:policy:rules:rulesstate",
+    "log": "no",
+    "name": "SNMP-Trap",
+    "selfLink": "https://localhost/mgmt/tm/security/firewall/policy/~Common~CPE_Security_Policy/rules/SNMP-Trap?ver=11.6.0",
+    "source": {
+        "identity": {}
+    },
+    "status": "enabled"
+}
+05/14/2016:22:09:09 restCall():/usr/bin/curl -sk --connect-timeout 5 -m 240 --header Content-Type: application/json -u admin:admin https://10.147.29.214/mgmt/tm/security/firewall/policy/~Common~CPE_Security_Policy/rules -X POST -d "{ "name": "BGP", "action": "accept",     "place-before": "last", "destination": { "addresses": "any",     "ports": [ { "name": "179" } ] }, "ipProtocol": "udp" }"
+05/14/2016:22:09:09 addRule(): {
+    "action": "accept",
+    "destination": {
+        "addresses": [
+            {
+                "name": "0.0.0.0"
+            }
+        ],
+        "ports": [
+            {
+                "name": "179"
+            }
+        ]
+    },
+    "fullPath": "BGP",
+    "generation": 477,
+    "ipProtocol": "udp",
+    "iruleSampleRate": 1,
+    "kind": "tm:security:firewall:policy:rules:rulesstate",
+    "log": "no",
+    "name": "BGP",
+    "selfLink": "https://localhost/mgmt/tm/security/firewall/policy/~Common~CPE_Security_Policy/rules/BGP?ver=11.6.0",
+    "source": {
+        "identity": {}
+    },
+    "status": "enabled"
+}
+05/14/2016:22:09:10 restCall():/usr/bin/curl -sk --connect-timeout 5 -m 240 --header Content-Type: application/json -u admin:admin https://10.147.29.214/mgmt/tm/security/firewall/policy/~Common~CPE_Security_Policy/rules -X POST -d "{ "name": "LDAP", "action": "accept",     "place-before": "last", "destination": { "addresses": "any",     "ports": [ { "name": "389" } ] }, "ipProtocol": "tcp" }"
+05/14/2016:22:09:10 addRule(): {
+    "action": "accept",
+    "destination": {
+        "addresses": [
+            {
+                "name": "0.0.0.0"
+            }
+        ],
+        "ports": [
+            {
+                "name": "389"
+            }
+        ]
+    },
+    "fullPath": "LDAP",
+    "generation": 477,
+    "ipProtocol": "tcp",
+    "iruleSampleRate": 1,
+    "kind": "tm:security:firewall:policy:rules:rulesstate",
+    "log": "no",
+    "name": "LDAP",
+    "selfLink": "https://localhost/mgmt/tm/security/firewall/policy/~Common~CPE_Security_Policy/rules/LDAP?ver=11.6.0",
+    "source": {
+        "identity": {}
+    },
+    "status": "enabled"
+}
+05/14/2016:22:09:10 restCall():/usr/bin/curl -sk --connect-timeout 5 -m 240 --header Content-Type: application/json -u admin:admin https://10.147.29.214/mgmt/tm/security/firewall/policy/~Common~CPE_Security_Policy/rules -X POST -d "{ "name": "SysLog", "action": "accept",     "place-before": "last", "destination": { "addresses": "any",     "ports": [ { "name": "514" } ] }, "ipProtocol": "udp" }"
+05/14/2016:22:09:10 addRule(): {
+    "action": "accept",
+    "destination": {
+        "addresses": [
+            {
+                "name": "0.0.0.0"
+            }
+        ],
+        "ports": [
+            {
+                "name": "514"
+            }
+        ]
+    },
+    "fullPath": "SysLog",
+    "generation": 477,
+    "ipProtocol": "udp",
+    "iruleSampleRate": 1,
+    "kind": "tm:security:firewall:policy:rules:rulesstate",
+    "log": "no",
+    "name": "SysLog",
+    "selfLink": "https://localhost/mgmt/tm/security/firewall/policy/~Common~CPE_Security_Policy/rules/SysLog?ver=11.6.0",
+    "source": {
+        "identity": {}
+    },
+    "status": "enabled"
+}
+05/14/2016:22:09:10 ----Apply Security Policy to the Global Security context.
+05/14/2016:22:09:10 restCall():/usr/bin/curl -sk --connect-timeout 5 -m 240 --header Content-Type: application/json -u admin:admin https://10.147.29.214/mgmt/tm/security/firewall/globalRules -X PATCH -d "{ "enforcedPolicy": "CPE_Security_Policy" }"
+05/14/2016:22:09:10 applySecurityPolicy(): {
+    "enforcedPolicy": "/Common/CPE_Security_Policy",
+    "kind": "tm:security:firewall:global-rules:global-rulesstate",
+    "selfLink": "https://localhost/mgmt/tm/security/firewall/global-rules?ver=11.6.0"
+}
+05/14/2016:22:09:10 ----Create Listener Virtual Server to catch all inbound traffic.
+05/14/2016:22:09:10 restCall():/usr/bin/curl -sk --connect-timeout 5 -m 240 --header Content-Type: application/json -u admin:admin https://10.147.29.214/mgmt/tm/ltm/virtual -X POST -d "{ "name": "TrafficListener",     "destination": "/Common/0.0.0.0:0", "mask": "any",     "ipProtocol": "any", "description": "VS used to listen for all incoming traffic" }"
+05/14/2016:22:09:11 addBasicVS(): {
+    "addressStatus": "yes",
+    "autoLasthop": "default",
+    "cmpEnabled": "yes",
+    "connectionLimit": 0,
+    "description": "VS used to listen for all incoming traffic",
+    "destination": "/Common/0.0.0.0:0",
+    "enabled": true,
+    "fullPath": "TrafficListener",
+    "generation": 540,
+    "gtmScore": 0,
+    "ipProtocol": "any",
+    "kind": "tm:ltm:virtual:virtualstate",
+    "mask": "any",
+    "mirror": "disabled",
+    "mobileAppTunnel": "disabled",
+    "name": "TrafficListener",
+    "nat64": "disabled",
+    "policiesReference": {
+        "isSubcollection": true,
+        "link": "https://localhost/mgmt/tm/ltm/virtual/~Common~TrafficListener/policies?ver=11.6.0"
+    },
+    "profilesReference": {
+        "isSubcollection": true,
+        "link": "https://localhost/mgmt/tm/ltm/virtual/~Common~TrafficListener/profiles?ver=11.6.0"
+    },
+    "rateLimit": "disabled",
+    "rateLimitDstMask": 0,
+    "rateLimitMode": "object",
+    "rateLimitSrcMask": 0,
+    "selfLink": "https://localhost/mgmt/tm/ltm/virtual/TrafficListener?ver=11.6.0",
+    "source": "0.0.0.0/0",
+    "sourceAddressTranslation": {
+        "type": "none"
+    },
+    "sourcePort": "preserve",
+    "synCookieStatus": "not-activated",
+    "translateAddress": "disabled",
+    "translatePort": "disabled",
+    "vlansDisabled": true,
+    "vsIndex": 15
+}
+05/14/2016:22:09:11 ----Modify VS for Automap
+05/14/2016:22:09:11 restCall():/usr/bin/curl -sk --connect-timeout 5 -m 240 --header Content-Type: application/json -u admin:admin https://10.147.29.214/mgmt/tm/ltm/virtual/~Common~TrafficListener -X PATCH -d "{ "sourceAddressTranslation": { "type": "automap" } }"
+05/14/2016:22:09:11 modifyVS(): {
+    "addressStatus": "yes",
+    "autoLasthop": "default",
+    "cmpEnabled": "yes",
+    "connectionLimit": 0,
+    "description": "VS used to listen for all incoming traffic",
+    "destination": "/Common/0.0.0.0:0",
+    "enabled": true,
+    "fullPath": "/Common/TrafficListener",
+    "generation": 543,
+    "gtmScore": 0,
+    "ipProtocol": "any",
+    "kind": "tm:ltm:virtual:virtualstate",
+    "mask": "any",
+    "mirror": "disabled",
+    "mobileAppTunnel": "disabled",
+    "name": "TrafficListener",
+    "nat64": "disabled",
+    "partition": "Common",
+    "policiesReference": {
+        "isSubcollection": true,
+        "link": "https://localhost/mgmt/tm/ltm/virtual/~Common~TrafficListener/policies?ver=11.6.0"
+    },
+    "profilesReference": {
+        "isSubcollection": true,
+        "link": "https://localhost/mgmt/tm/ltm/virtual/~Common~TrafficListener/profiles?ver=11.6.0"
+    },
+    "rateLimit": "disabled",
+    "rateLimitDstMask": 0,
+    "rateLimitMode": "object",
+    "rateLimitSrcMask": 0,
+    "selfLink": "https://localhost/mgmt/tm/ltm/virtual/~Common~TrafficListener?ver=11.6.0",
+    "source": "0.0.0.0/0",
+    "sourceAddressTranslation": {
+        "type": "automap"
+    },
+    "sourcePort": "preserve",
+    "synCookieStatus": "not-activated",
+    "translateAddress": "disabled",
+    "translatePort": "disabled",
+    "vlansDisabled": true,
+    "vsIndex": 15
+}
+05/14/2016:22:09:11 ----Saving the new Configuration...
+05/14/2016:22:09:11 restCall():/usr/bin/curl -sk --connect-timeout 5 -m 240 --header Content-Type: application/json -u admin:admin https://10.147.29.214/mgmt/tm/sys/config -X POST -d "{"command": "save"}"
+05/14/2016:22:09:14 saveConfig(): {
+    "command": "save",
+    "kind": "tm:sys:config:savestate"
+}
+05/14/2016:22:09:14 *** Firewall Configuration is now complete ***

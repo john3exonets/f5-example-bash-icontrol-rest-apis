@@ -1,0 +1,541 @@
+05/15/2016:20:52:54 ** Adding Common iControl REST API Function **
+05/15/2016:20:52:54 *** Program Start ***
+05/15/2016:20:52:54 ----Checking to see if we can talk to BIGIP...
+05/15/2016:20:52:56 restCall():/usr/bin/curl -sk --connect-timeout 5 -m 120 --header Content-Type: application/json -u admin:admin https://10.147.29.214/mgmt/tm/ltm/available -X GET 
+05/15/2016:20:52:56 isAvailable():{}
+05/15/2016:20:52:56 ---Retrieving BIGIP Version number...
+05/15/2016:20:52:56 restCall():/usr/bin/curl -sk --connect-timeout 5 -m 120 --header Content-Type: application/json -u admin:admin https://10.147.29.214/mgmt/tm/cloud/net/software-status -X GET 
+05/15/2016:20:52:56 getVersion(): True
+05/15/2016:20:52:56 restCall():/usr/bin/curl -sk --connect-timeout 5 -m 120 --header Content-Type: application/json -u admin:admin https://10.147.29.214/mgmt/tm/cloud/net/software-status -X GET 
+05/15/2016:20:52:56 getVersion(): 11.6.0
+05/15/2016:20:52:56 ----Disable the Setup Wizard on the Admin GUI.
+05/15/2016:20:52:56 restCall():/usr/bin/curl -sk --connect-timeout 5 -m 120 --header Content-Type: application/json -u admin:admin https://10.147.29.214/mgmt/tm/sys/global-settings -X PUT -d "{"guiSetup": "disabled"}"
+05/15/2016:20:52:56 :: {
+    "awsApiMaxConcurrency": 1,
+    "consoleInactivityTimeout": 0,
+    "customAddr": "none",
+    "failsafeAction": "go-offline-restart-tm",
+    "fileLocalPathPrefix": "{/shared/} {/tmp/}",
+    "guiSecurityBanner": "enabled",
+    "guiSecurityBannerText": "Welcome to the BIG-IP Configuration Utility.\n\nLog in with your username and password using the fields on the left.",
+    "guiSetup": "disabled",
+    "hostAddrMode": "management",
+    "hostname": "host-10-10-10-54.cloud",
+    "kind": "tm:sys:global-settings:global-settingsstate",
+    "lcdDisplay": "enabled",
+    "mgmtDhcp": "enabled",
+    "netReboot": "disabled",
+    "passwordPrompt": "Password",
+    "quietBoot": "enabled",
+    "selfLink": "https://localhost/mgmt/tm/sys/global-settings?ver=11.6.0",
+    "usernamePrompt": "Username"
+}
+05/15/2016:20:52:56 ----Setting up 'internal' VLAN and SelfIP.
+05/15/2016:20:52:56 restCall():/usr/bin/curl -sk --connect-timeout 5 -m 120 --header Content-Type: application/json -u admin:admin https://10.147.29.214/mgmt/tm/net/vlan -X POST -d "{ "name": "internal", "interfaces": "1.1" }"
+05/15/2016:20:52:57 ::{
+    "autoLasthop": "default",
+    "cmpHash": "default",
+    "dagRoundRobin": "disabled",
+    "dagTunnel": "outer",
+    "failsafe": "disabled",
+    "failsafeAction": "failover-restart-tm",
+    "failsafeTimeout": 90,
+    "fullPath": "internal",
+    "generation": 825,
+    "ifIndex": 464,
+    "interfacesReference": {
+        "isSubcollection": true,
+        "link": "https://localhost/mgmt/tm/net/vlan/~Common~internal/interfaces?ver=11.6.0"
+    },
+    "kind": "tm:net:vlan:vlanstate",
+    "learning": "enable-forward",
+    "mtu": 1500,
+    "name": "internal",
+    "selfLink": "https://localhost/mgmt/tm/net/vlan/internal?ver=11.6.0",
+    "sflow": {
+        "pollInterval": 0,
+        "pollIntervalGlobal": "yes",
+        "samplingRate": 0,
+        "samplingRateGlobal": "yes"
+    },
+    "sourceChecking": "disabled",
+    "tag": 4094
+}
+05/15/2016:20:52:57 restCall():/usr/bin/curl -sk --connect-timeout 5 -m 120 --header Content-Type: application/json -u admin:admin https://10.147.29.214/mgmt/tm/net/self -X POST -d "{ "name": "internal", "address":    "10.1.1.71/24", "vlan": "internal", "allowService": "all" }"
+05/15/2016:20:52:57 ::{
+    "address": "10.1.1.71/24",
+    "allowService": "all",
+    "floating": "disabled",
+    "fullPath": "internal",
+    "generation": 828,
+    "inheritedTrafficGroup": "false",
+    "kind": "tm:net:self:selfstate",
+    "name": "internal",
+    "selfLink": "https://localhost/mgmt/tm/net/self/internal?ver=11.6.0",
+    "trafficGroup": "/Common/traffic-group-local-only",
+    "unit": 0,
+    "vlan": "/Common/internal"
+}
+05/15/2016:20:52:57 ----Setting up 'external' VLAN and SelfIP.
+05/15/2016:20:52:57 restCall():/usr/bin/curl -sk --connect-timeout 5 -m 120 --header Content-Type: application/json -u admin:admin https://10.147.29.214/mgmt/tm/net/vlan -X POST -d "{ "name": "external", "interfaces": "1.2" }"
+05/15/2016:20:52:58 ::{
+    "autoLasthop": "default",
+    "cmpHash": "default",
+    "dagRoundRobin": "disabled",
+    "dagTunnel": "outer",
+    "failsafe": "disabled",
+    "failsafeAction": "failover-restart-tm",
+    "failsafeTimeout": 90,
+    "fullPath": "external",
+    "generation": 829,
+    "ifIndex": 480,
+    "interfacesReference": {
+        "isSubcollection": true,
+        "link": "https://localhost/mgmt/tm/net/vlan/~Common~external/interfaces?ver=11.6.0"
+    },
+    "kind": "tm:net:vlan:vlanstate",
+    "learning": "enable-forward",
+    "mtu": 1500,
+    "name": "external",
+    "selfLink": "https://localhost/mgmt/tm/net/vlan/external?ver=11.6.0",
+    "sflow": {
+        "pollInterval": 0,
+        "pollIntervalGlobal": "yes",
+        "samplingRate": 0,
+        "samplingRateGlobal": "yes"
+    },
+    "sourceChecking": "disabled",
+    "tag": 4093
+}
+05/15/2016:20:52:58 restCall():/usr/bin/curl -sk --connect-timeout 5 -m 120 --header Content-Type: application/json -u admin:admin https://10.147.29.214/mgmt/tm/net/self -X POST -d "{ "name": "external", "address":    "10.2.2.61/24", "vlan": "external", "allowService": "all" }"
+05/15/2016:20:52:58 ::{
+    "address": "10.2.2.61/24",
+    "allowService": "all",
+    "floating": "disabled",
+    "fullPath": "external",
+    "generation": 832,
+    "inheritedTrafficGroup": "false",
+    "kind": "tm:net:self:selfstate",
+    "name": "external",
+    "selfLink": "https://localhost/mgmt/tm/net/self/external?ver=11.6.0",
+    "trafficGroup": "/Common/traffic-group-local-only",
+    "unit": 0,
+    "vlan": "/Common/external"
+}
+05/15/2016:20:52:58 ----Set up next hop for Traffic flow.
+05/15/2016:20:52:58 restCall():/usr/bin/curl -sk --connect-timeout 5 -m 120 --header Content-Type: application/json -u admin:admin https://10.147.29.214/mgmt/tm/net/route -X POST -d "{ "name": "DefaultRoute", "partition": "Common",       "network": "default", "gw": "10.2.2.1" }"
+05/15/2016:20:52:58 setDefaultRoute(): {
+    "fullPath": "/Common/DefaultRoute",
+    "generation": 833,
+    "gw": "10.2.2.1",
+    "kind": "tm:net:route:routestate",
+    "mtu": 0,
+    "name": "DefaultRoute",
+    "network": "default",
+    "partition": "Common",
+    "selfLink": "https://localhost/mgmt/tm/net/route/~Common~DefaultRoute?ver=11.6.0"
+}
+05/15/2016:20:52:58 ----Setup SNMP Agent access.
+05/15/2016:20:52:58 restCall():/usr/bin/curl -sk --connect-timeout 5 -m 120 --header Content-Type: application/json -u admin:admin https://10.147.29.214/mgmt/tm/sys/snmp -X PUT -d "{ "allowed-addresses": ["127.", "10."] }"
+05/15/2016:20:52:59 :: {
+    "agentAddresses": [
+        "tcp6:161",
+        "udp6:161"
+    ],
+    "agentTrap": "enabled",
+    "allowedAddresses": [
+        "127.",
+        "10."
+    ],
+    "authTrap": "disabled",
+    "bigipTraps": "enabled",
+    "communitiesReference": {
+        "isSubcollection": true,
+        "link": "https://localhost/mgmt/tm/sys/snmp/communities?ver=11.6.0"
+    },
+    "diskMonitors": [
+        {
+            "minspace": 2000,
+            "minspaceType": "size",
+            "name": "/Common/root",
+            "path": "/"
+        },
+        {
+            "minspace": 10000,
+            "minspaceType": "size",
+            "name": "/Common/var",
+            "path": "/var"
+        }
+    ],
+    "kind": "tm:sys:snmp:snmpstate",
+    "l2forwardVlan": "none",
+    "loadMax1": 12,
+    "loadMax15": 12,
+    "loadMax5": 12,
+    "processMonitors": [
+        {
+            "maxProcesses": "1",
+            "minProcesses": 1,
+            "name": "/Common/bigd",
+            "process": "bigd"
+        },
+        {
+            "maxProcesses": "1",
+            "minProcesses": 1,
+            "name": "/Common/chmand",
+            "process": "chmand"
+        },
+        {
+            "maxProcesses": "infinity",
+            "minProcesses": 1,
+            "name": "/Common/httpd",
+            "process": "httpd"
+        },
+        {
+            "maxProcesses": "1",
+            "minProcesses": 1,
+            "name": "/Common/mcpd",
+            "process": "mcpd"
+        },
+        {
+            "maxProcesses": "1",
+            "minProcesses": 1,
+            "name": "/Common/sod",
+            "process": "sod"
+        },
+        {
+            "maxProcesses": "infinity",
+            "minProcesses": 1,
+            "name": "/Common/tmm",
+            "process": "tmm"
+        }
+    ],
+    "selfLink": "https://localhost/mgmt/tm/sys/snmp?ver=11.6.0",
+    "sysContact": "Customer Name <admin@customer.com>",
+    "sysLocation": "Network Closet 1",
+    "sysServices": 78,
+    "trapCommunity": "public",
+    "trapSource": "none",
+    "trapsReference": {
+        "isSubcollection": true,
+        "link": "https://localhost/mgmt/tm/sys/snmp/traps?ver=11.6.0"
+    },
+    "usersReference": {
+        "isSubcollection": true,
+        "link": "https://localhost/mgmt/tm/sys/snmp/users?ver=11.6.0"
+    }
+}
+05/15/2016:20:52:59 ----Creating Dynamic BWC Policy.
+05/15/2016:20:52:59 restCall():/usr/bin/curl -sk --connect-timeout 5 -m 120 --header Content-Type: application/json -u admin:admin https://10.147.29.214/mgmt/tm/net/bwc-policy -X POST -d "{"name":"Base_Traffic_BWC", "partition":"Common",       "dynamic":"enabled", "maxRate":"2000000000", "maxUserRate":"200000000" }"
+05/15/2016:20:53:00 addBWCPolicy(): {
+    "dynamic": "enabled",
+    "fullPath": "/Common/Base_Traffic_BWC",
+    "generation": 835,
+    "ipTos": "pass-through",
+    "kind": "tm:net:bwc-policy:bwc-policystate",
+    "linkQos": "pass-through",
+    "logPeriod": 2048,
+    "maxRate": 2000000000,
+    "maxUserRate": 200000000,
+    "measure": "disabled",
+    "name": "Base_Traffic_BWC",
+    "partition": "Common",
+    "selfLink": "https://localhost/mgmt/tm/net/bwc-policy/~Common~Base_Traffic_BWC?ver=11.6.0"
+}
+05/15/2016:20:53:00 ----Modifying 'internal' VLAN for Dynamic BWC Operations.
+05/15/2016:20:53:00 restCall():/usr/bin/curl -sk --connect-timeout 5 -m 120 --header Content-Type: application/json -u admin:admin https://10.147.29.214/mgmt/tm/net/vlan/~Common~internal -X PATCH -d "{"cmpHash":"src-ip"}"
+05/15/2016:20:53:00 modifyVLANforSrcHash(): {
+    "autoLasthop": "default",
+    "cmpHash": "src-ip",
+    "dagRoundRobin": "disabled",
+    "dagTunnel": "outer",
+    "failsafe": "disabled",
+    "failsafeAction": "failover-restart-tm",
+    "failsafeTimeout": 90,
+    "fullPath": "/Common/internal",
+    "generation": 836,
+    "ifIndex": 464,
+    "interfacesReference": {
+        "isSubcollection": true,
+        "link": "https://localhost/mgmt/tm/net/vlan/~Common~internal/interfaces?ver=11.6.0"
+    },
+    "kind": "tm:net:vlan:vlanstate",
+    "learning": "enable-forward",
+    "mtu": 1500,
+    "name": "internal",
+    "partition": "Common",
+    "selfLink": "https://localhost/mgmt/tm/net/vlan/~Common~internal?ver=11.6.0",
+    "sflow": {
+        "pollInterval": 0,
+        "pollIntervalGlobal": "yes",
+        "samplingRate": 0,
+        "samplingRateGlobal": "yes"
+    },
+    "sourceChecking": "disabled",
+    "tag": 4094
+}
+05/15/2016:20:53:00 ----Create a Virtual Server to intercept All Other traffic.
+05/15/2016:20:53:00 restCall():/usr/bin/curl -sk --connect-timeout 5 -m 120 --header Content-Type: application/json -u admin:admin https://10.147.29.214/mgmt/tm/ltm/virtual -X POST -d "{ "name": "TrafficPassthrough",     "destination": "/Common/0.0.0.0:0", "mask": "any",     "ipProtocol": "any", "description": "Pass All Other Traffic Through" }"
+05/15/2016:20:53:00 addBasicVS(): {
+    "addressStatus": "yes",
+    "autoLasthop": "default",
+    "cmpEnabled": "yes",
+    "connectionLimit": 0,
+    "description": "Pass All Other Traffic Through",
+    "destination": "/Common/0.0.0.0:0",
+    "enabled": true,
+    "fullPath": "TrafficPassthrough",
+    "generation": 837,
+    "gtmScore": 0,
+    "ipProtocol": "any",
+    "kind": "tm:ltm:virtual:virtualstate",
+    "mask": "any",
+    "mirror": "disabled",
+    "mobileAppTunnel": "disabled",
+    "name": "TrafficPassthrough",
+    "nat64": "disabled",
+    "policiesReference": {
+        "isSubcollection": true,
+        "link": "https://localhost/mgmt/tm/ltm/virtual/~Common~TrafficPassthrough/policies?ver=11.6.0"
+    },
+    "profilesReference": {
+        "isSubcollection": true,
+        "link": "https://localhost/mgmt/tm/ltm/virtual/~Common~TrafficPassthrough/profiles?ver=11.6.0"
+    },
+    "rateLimit": "disabled",
+    "rateLimitDstMask": 0,
+    "rateLimitMode": "object",
+    "rateLimitSrcMask": 0,
+    "selfLink": "https://localhost/mgmt/tm/ltm/virtual/TrafficPassthrough?ver=11.6.0",
+    "source": "0.0.0.0/0",
+    "sourceAddressTranslation": {
+        "type": "none"
+    },
+    "sourcePort": "preserve",
+    "synCookieStatus": "not-activated",
+    "translateAddress": "disabled",
+    "translatePort": "disabled",
+    "vlansDisabled": true,
+    "vsIndex": 17
+}
+05/15/2016:20:53:00 ----Modifying new VS to accept traffic only from the 'internal' VLAN
+05/15/2016:20:53:00 restCall():/usr/bin/curl -sk --connect-timeout 5 -m 120 --header Content-Type: application/json -u admin:admin https://10.147.29.214/mgmt/tm/ltm/virtual/~Common~TrafficPassthrough -X PATCH -d "{ "vlansEnabled": true, "vlans": [ "/Common/internal" ] }"
+05/15/2016:20:53:00 modifyVS(): {
+    "addressStatus": "yes",
+    "autoLasthop": "default",
+    "cmpEnabled": "yes",
+    "connectionLimit": 0,
+    "description": "Pass All Other Traffic Through",
+    "destination": "/Common/0.0.0.0:0",
+    "enabled": true,
+    "fullPath": "/Common/TrafficPassthrough",
+    "generation": 838,
+    "gtmScore": 0,
+    "ipProtocol": "any",
+    "kind": "tm:ltm:virtual:virtualstate",
+    "mask": "any",
+    "mirror": "disabled",
+    "mobileAppTunnel": "disabled",
+    "name": "TrafficPassthrough",
+    "nat64": "disabled",
+    "partition": "Common",
+    "policiesReference": {
+        "isSubcollection": true,
+        "link": "https://localhost/mgmt/tm/ltm/virtual/~Common~TrafficPassthrough/policies?ver=11.6.0"
+    },
+    "profilesReference": {
+        "isSubcollection": true,
+        "link": "https://localhost/mgmt/tm/ltm/virtual/~Common~TrafficPassthrough/profiles?ver=11.6.0"
+    },
+    "rateLimit": "disabled",
+    "rateLimitDstMask": 0,
+    "rateLimitMode": "object",
+    "rateLimitSrcMask": 0,
+    "selfLink": "https://localhost/mgmt/tm/ltm/virtual/~Common~TrafficPassthrough?ver=11.6.0",
+    "source": "0.0.0.0/0",
+    "sourceAddressTranslation": {
+        "type": "none"
+    },
+    "sourcePort": "preserve",
+    "synCookieStatus": "not-activated",
+    "translateAddress": "disabled",
+    "translatePort": "disabled",
+    "vlans": [
+        "/Common/internal"
+    ],
+    "vlansEnabled": true,
+    "vsIndex": 17
+}
+05/15/2016:20:53:01 ----Modify VS for Automap
+05/15/2016:20:53:01 restCall():/usr/bin/curl -sk --connect-timeout 5 -m 120 --header Content-Type: application/json -u admin:admin https://10.147.29.214/mgmt/tm/ltm/virtual/~Common~TrafficPassthrough -X PATCH -d "{ "sourceAddressTranslation": { "type": "automap" } }"
+05/15/2016:20:53:01 modifyVS(): {
+    "addressStatus": "yes",
+    "autoLasthop": "default",
+    "cmpEnabled": "yes",
+    "connectionLimit": 0,
+    "description": "Pass All Other Traffic Through",
+    "destination": "/Common/0.0.0.0:0",
+    "enabled": true,
+    "fullPath": "/Common/TrafficPassthrough",
+    "generation": 839,
+    "gtmScore": 0,
+    "ipProtocol": "any",
+    "kind": "tm:ltm:virtual:virtualstate",
+    "mask": "any",
+    "mirror": "disabled",
+    "mobileAppTunnel": "disabled",
+    "name": "TrafficPassthrough",
+    "nat64": "disabled",
+    "partition": "Common",
+    "policiesReference": {
+        "isSubcollection": true,
+        "link": "https://localhost/mgmt/tm/ltm/virtual/~Common~TrafficPassthrough/policies?ver=11.6.0"
+    },
+    "profilesReference": {
+        "isSubcollection": true,
+        "link": "https://localhost/mgmt/tm/ltm/virtual/~Common~TrafficPassthrough/profiles?ver=11.6.0"
+    },
+    "rateLimit": "disabled",
+    "rateLimitDstMask": 0,
+    "rateLimitMode": "object",
+    "rateLimitSrcMask": 0,
+    "selfLink": "https://localhost/mgmt/tm/ltm/virtual/~Common~TrafficPassthrough?ver=11.6.0",
+    "source": "0.0.0.0/0",
+    "sourceAddressTranslation": {
+        "type": "automap"
+    },
+    "sourcePort": "preserve",
+    "synCookieStatus": "not-activated",
+    "translateAddress": "disabled",
+    "translatePort": "disabled",
+    "vlans": [
+        "/Common/internal"
+    ],
+    "vlansEnabled": true,
+    "vsIndex": 17
+}
+05/15/2016:20:53:01 ----Modify VS to Disable AutoTranslateAddress
+05/15/2016:20:53:01 restCall():/usr/bin/curl -sk --connect-timeout 5 -m 120 --header Content-Type: application/json -u admin:admin https://10.147.29.214/mgmt/tm/ltm/virtual/~Common~TrafficPassthrough -X PATCH -d "{ "translateAddress": "disabled" }"
+05/15/2016:20:53:01 modifyVS(): {
+    "addressStatus": "yes",
+    "autoLasthop": "default",
+    "cmpEnabled": "yes",
+    "connectionLimit": 0,
+    "description": "Pass All Other Traffic Through",
+    "destination": "/Common/0.0.0.0:0",
+    "enabled": true,
+    "fullPath": "/Common/TrafficPassthrough",
+    "generation": 840,
+    "gtmScore": 0,
+    "ipProtocol": "any",
+    "kind": "tm:ltm:virtual:virtualstate",
+    "mask": "any",
+    "mirror": "disabled",
+    "mobileAppTunnel": "disabled",
+    "name": "TrafficPassthrough",
+    "nat64": "disabled",
+    "partition": "Common",
+    "policiesReference": {
+        "isSubcollection": true,
+        "link": "https://localhost/mgmt/tm/ltm/virtual/~Common~TrafficPassthrough/policies?ver=11.6.0"
+    },
+    "profilesReference": {
+        "isSubcollection": true,
+        "link": "https://localhost/mgmt/tm/ltm/virtual/~Common~TrafficPassthrough/profiles?ver=11.6.0"
+    },
+    "rateLimit": "disabled",
+    "rateLimitDstMask": 0,
+    "rateLimitMode": "object",
+    "rateLimitSrcMask": 0,
+    "selfLink": "https://localhost/mgmt/tm/ltm/virtual/~Common~TrafficPassthrough?ver=11.6.0",
+    "source": "0.0.0.0/0",
+    "sourceAddressTranslation": {
+        "type": "automap"
+    },
+    "sourcePort": "preserve",
+    "synCookieStatus": "not-activated",
+    "translateAddress": "disabled",
+    "translatePort": "disabled",
+    "vlans": [
+        "/Common/internal"
+    ],
+    "vlansEnabled": true,
+    "vsIndex": 17
+}
+05/15/2016:20:53:02 ----Create BWC Assignment iRule.
+05/15/2016:20:53:02 restCall():/usr/bin/curl -sk --connect-timeout 5 -m 120 --header Content-Type: application/json -u admin:admin https://10.147.29.214/mgmt/tm/ltm/rule -X POST -d "{ "name": "Assign_BWC_Policy", "partition": "Common", "apiAnonymous": "#
+# Assign_BWC_Policy: Attach a Dynamic BWC policy to each user.
+#
+# F5 Networks
+# (C) 2014, All Rights Reserved.
+#
+when CLIENT_ACCEPTED {
+  set client_session [IP::remote_addr]:[TCP::remote_port]
+  BWC::policy attach Base_Traffic_BWC $client_session
+}" }"
+05/15/2016:20:53:02 addiRule(): {
+    "apiAnonymous": "#\n# Assign_BWC_Policy: Attach a Dynamic BWC policy to each user.\n#\n# F5 Networks\n# (C) 2014, All Rights Reserved.\n#\nwhen CLIENT_ACCEPTED {\n set client_session [IP::remote_addr]:[TCP::remote_port]\n BWC::policy attach Base_Traffic_BWC $client_session\n}",
+    "fullPath": "/Common/Assign_BWC_Policy",
+    "generation": 841,
+    "kind": "tm:ltm:rule:rulestate",
+    "name": "Assign_BWC_Policy",
+    "partition": "Common",
+    "selfLink": "https://localhost/mgmt/tm/ltm/rule/~Common~Assign_BWC_Policy?ver=11.6.0"
+}
+05/15/2016:20:53:02 ----Adding iRule to new VS.
+05/15/2016:20:53:02 restCall():/usr/bin/curl -sk --connect-timeout 5 -m 120 --header Content-Type: application/json -u admin:admin https://10.147.29.214/mgmt/tm/ltm/virtual/TrafficPassthrough -X PATCH -d "{ "rules": ["/Common/Assign_BWC_Policy"] }"
+05/15/2016:20:53:03 attachiRuleToVS(): {
+    "addressStatus": "yes",
+    "autoLasthop": "default",
+    "cmpEnabled": "yes",
+    "connectionLimit": 0,
+    "description": "Pass All Other Traffic Through",
+    "destination": "/Common/0.0.0.0:0",
+    "enabled": true,
+    "fullPath": "TrafficPassthrough",
+    "generation": 842,
+    "gtmScore": 0,
+    "ipProtocol": "any",
+    "kind": "tm:ltm:virtual:virtualstate",
+    "mask": "any",
+    "mirror": "disabled",
+    "mobileAppTunnel": "disabled",
+    "name": "TrafficPassthrough",
+    "nat64": "disabled",
+    "policiesReference": {
+        "isSubcollection": true,
+        "link": "https://localhost/mgmt/tm/ltm/virtual/~Common~TrafficPassthrough/policies?ver=11.6.0"
+    },
+    "profilesReference": {
+        "isSubcollection": true,
+        "link": "https://localhost/mgmt/tm/ltm/virtual/~Common~TrafficPassthrough/profiles?ver=11.6.0"
+    },
+    "rateLimit": "disabled",
+    "rateLimitDstMask": 0,
+    "rateLimitMode": "object",
+    "rateLimitSrcMask": 0,
+    "rules": [
+        "/Common/Assign_BWC_Policy"
+    ],
+    "selfLink": "https://localhost/mgmt/tm/ltm/virtual/TrafficPassthrough?ver=11.6.0",
+    "source": "0.0.0.0/0",
+    "sourceAddressTranslation": {
+        "type": "automap"
+    },
+    "sourcePort": "preserve",
+    "synCookieStatus": "not-activated",
+    "translateAddress": "disabled",
+    "translatePort": "disabled",
+    "vlans": [
+        "/Common/internal"
+    ],
+    "vlansEnabled": true,
+    "vsIndex": 17
+}
+05/15/2016:20:53:03 ----Saving the new Configuration...
+05/15/2016:20:53:03 restCall():/usr/bin/curl -sk --connect-timeout 5 -m 120 --header Content-Type: application/json -u admin:admin https://10.147.29.214/mgmt/tm/sys/config -X POST -d "{"command": "save"}"
+05/15/2016:20:53:05 saveConfig(): {
+    "command": "save",
+    "kind": "tm:sys:config:savestate"
+}
+05/15/2016:20:53:05 *** BWC Configuration is now complete ***
